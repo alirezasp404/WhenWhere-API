@@ -1,6 +1,8 @@
-var builder = WebApplication.CreateBuilder(args);
+// <copyright file="Program.cs" company="WhenWhere">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
-// Add services to the container.
+var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddProblemDetails();
@@ -19,6 +21,7 @@ else
 {
     app.UseExceptionHandler();
 }
+
 app.UseStatusCodePages();
 app.UseHttpsRedirection();
 
