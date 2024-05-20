@@ -1,4 +1,5 @@
-﻿using WhenWhere.Core.Domain.RepositoryContracts;
+﻿using Microsoft.EntityFrameworkCore;
+using WhenWhere.Core.Domain.RepositoryContracts;
 using WhenWhere.Core.DTO;
 using WhenWhere.Core.ServiceContracts;
 
@@ -13,30 +14,37 @@ namespace WhenWhere.Core.Services
             _eventsRepository = eventsRepository;
         }
 
-        public async IEnumerable<EventResponse>? GetAllEvents(Guid? userId)
+        public async Task<IEnumerable<EventResponse>?> GetAllEvents(Guid? userId)
         {
             if (userId == null)
             {
                 return null;
             }
 
-            var allEvents = await _eventsRepository!.GetAllEvents(userId);
-            return allEvents?.Select(e => e.ToEventResponse)
+            return await _eventsRepository.GetAllEvents(userId)?.Select(e => e.ToEventResponse())
+                                          .ToListAsync();
         }
 
-        public IEnumerable<EventResponse>? GetCreatedEvents(Guid? userId)
+        public async Task<IEnumerable<EventResponse>?> GetCreatedEvents(Guid? userId)
         {
-            throw new NotImplementedException();
+            if (userId == null)
+            {
+                return null;
+            }
+
+            return await _eventsRepository.GetCreatedEvents(userId)?.Select(e => e.ToEventResponse())
+                                          .ToListAsync();
         }
 
-        public IEnumerable<EventResponse>? GetRegisteredEvents(Guid? userId)
+        public async Task<IEnumerable<EventResponse>?> GetRegisteredEvents(Guid? userId)
         {
-            throw new NotImplementedException();
-        }
+            if (userId == null)
+            {
+                return null;
+            }
 
-        public UserProfile? GetUserProfile(Guid? userId)
-        {
-            throw new NotImplementedException();
+            return await _eventsRepository.GetRegisteredEvents(userId)?.Select(e => e.ToEventResponse())
+                                          .ToListAsync();
         }
     }
 }

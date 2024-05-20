@@ -1,9 +1,13 @@
-// <copyright file="Program.cs" company="WhenWhere">
-// Copyright (c) PlaceholderCompany. All rights reserved.
-// </copyright>
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using WhenWhere.Core.Domain.IdentityEntities;
 using WhenWhere.Infrastructure.DataContext;
+using WhenWhere.Core.ServiceContracts;
+using WhenWhere.Core.Services;
+using WhenWhere.Core.Domain.RepositoryContracts;
+using WhenWhere.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(opts =>
@@ -13,11 +17,19 @@ builder.Services.AddDbContext<ApplicationDbContext>(opts =>
     connectionString.UserID = builder.Configuration["DbUserId"];
     opts.UseSqlServer(connectionString.ToString());
 });
+
+builder.Services
+    .AddIdentity<ApplicationUser, ApplicationRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders()
+    .AddUserStore<UserStore<ApplicationUser, ApplicationRole, ApplicationDbContext, Guid>>()
+    .AddRoleStore<RoleStore<ApplicationRole, ApplicationDbContext, Guid>>();
 builder.Services.AddControllers();
 builder.Services.AddProblemDetails();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddScoped<IEventsGetterService, EventsGetterService>();
+builder.Services.AddScoped<IEventsRepository, EventRepository>();
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -33,7 +45,7 @@ else
 
 app.UseStatusCodePages();
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
