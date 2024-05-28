@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using WhenWhere.Core.Domain.Entities;
 using WhenWhere.Core.DTO;
 using WhenWhere.Core.Enums;
 using WhenWhere.Core.ServiceContracts;
@@ -35,7 +36,7 @@ namespace WhenWhere.API.Controllers
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var allEvents = await _eventsGetterService.GetAllEvents(userId);
-            if (!allEvents.Any())
+            if (allEvents is null || !allEvents.Any())
             {
                 return Problem(statusCode: StatusCodes.Status404NotFound, detail: "There aren't any Events");
             }
@@ -48,7 +49,7 @@ namespace WhenWhere.API.Controllers
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var createdEvents = await _eventsGetterService.GetCreatedEvents(userId);
-            if (!createdEvents.Any())
+            if (createdEvents is null || !createdEvents.Any())
             {
                 return Problem(statusCode: StatusCodes.Status404NotFound, detail: "There aren't any Created Events");
             }
