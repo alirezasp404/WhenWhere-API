@@ -35,6 +35,13 @@ namespace WhenWhere.Core.Domain.RepositoryContracts
         IQueryable<Event?>? GetRegisteredEvents(string? userId);
 
         /// <summary>
+        /// Find Event that matches with Id.
+        /// </summary>
+        /// <param name="eventId"></param>
+        /// <returns>Returns Event that matches with Id.</returns>
+        Task<Event?>? GetEventById(Guid? eventId);
+
+        /// <summary>
         /// register an user in selected event.
         /// </summary>
         /// <param name="userId">user Id to register.</param>

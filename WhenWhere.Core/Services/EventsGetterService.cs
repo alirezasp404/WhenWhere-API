@@ -22,7 +22,6 @@ namespace WhenWhere.Core.Services
                 return null;
             }
 
-            
             return await _eventsRepository.GetAllEvents(userId)?.Select(e => e.ToEventResponse())
                                           .ToListAsync();
         }
