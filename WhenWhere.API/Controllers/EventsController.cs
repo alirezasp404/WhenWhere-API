@@ -42,5 +42,18 @@ namespace WhenWhere.API.Controllers
 
             return Ok(allEvents);
         }
+
+        [HttpGet("created")]
+        public async Task<ActionResult<IEnumerable<EventResponse>>> GetAllCreatedEvents()
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var createdEvents = await _eventsGetterService.GetCreatedEvents(userId);
+            if (!createdEvents.Any())
+            {
+                return Problem(statusCode: StatusCodes.Status404NotFound, detail: "There aren't any Created Events");
+            }
+
+            return Ok(createdEvents);
+        }
     }
 }
