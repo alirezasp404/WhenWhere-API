@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WhenWhere.Core.Domain.Entities;
 using WhenWhere.Core.Domain.RepositoryContracts;
 using WhenWhere.Core.DTO;
 using WhenWhere.Core.Helpers;
@@ -16,15 +18,16 @@ namespace WhenWhere.Core.Services
 
         public EventsAdderService(IEventsRepository eventsRepository)
         {
-            this._eventsRepository = eventsRepository;
+            _eventsRepository = eventsRepository;
         }
-        public Task<EventResponse> AddEvent(EventAddRequest request)
+
+        public async Task<EventResponse> AddEvent(EventAddRequest request)
         {
             ArgumentNullException.ThrowIfNull(request);
-
             ValidationHelper.ModelValidation(request);
             var newEvent = request.ToEvent();
-
+            await _eventsRepository.CreateEvent(newEvent);
+            return newEvent.ToEventResponse();
         }
     }
 }

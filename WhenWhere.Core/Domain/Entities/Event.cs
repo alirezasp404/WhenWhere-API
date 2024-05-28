@@ -1,7 +1,7 @@
 ﻿namespace WhenWhere.Core.Domain.Entities
 {
+    using Microsoft.AspNetCore.Identity;
     using System.ComponentModel.DataAnnotations.Schema;
-    using WhenWhere.Core.Domain.IdentityEntities;
 
     /// <summary>
     /// Event entity.
@@ -22,9 +22,9 @@
 
         public string Location { get; set; }
 
-        public Guid EventCreatorId { get; set; }
+        public string? EventCreatorId { get; set; }
 
         [ForeignKey(nameof(EventCreatorId))]
-        public virtual ApplicationUser? EventCreator { get; set; }
+        public virtual IdentityUser? EventCreator { get; set; }
     }
 }

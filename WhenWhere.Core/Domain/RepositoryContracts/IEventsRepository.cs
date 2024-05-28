@@ -18,21 +18,21 @@ namespace WhenWhere.Core.Domain.RepositoryContracts
         /// </summary>
         /// <param name="userId">UserId.</param>
         /// <returns>List of Events objects from table. </returns>
-        IQueryable<Event>? GetAllEvents(Guid? userId);
+        IQueryable<Event>? GetAllEvents(string? userId);
 
         /// <summary>
         /// Returns all created Events by given userId.
         /// </summary>
         /// <param name="userId">UserId.</param>
         /// <returns>all created Events by given userId. </returns>
-        IQueryable<Event>? GetCreatedEvents(Guid? userId);
+        IQueryable<Event>? GetCreatedEvents(string? userId);
 
         /// <summary>
         /// Returns all registered Events by given userId.
         /// </summary>
         /// <param name="userId">UserId.</param>
         /// <returns>all created registered by given userId. </returns>
-        IQueryable<Event?>? GetRegisteredEvents(Guid? userId);
+        IQueryable<Event?>? GetRegisteredEvents(string? userId);
 
         /// <summary>
         /// register an user in selected event.

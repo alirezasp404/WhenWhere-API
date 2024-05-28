@@ -1,4 +1,5 @@
-﻿using WhenWhere.Core.Domain.Entities;
+﻿using Microsoft.AspNetCore.Http;
+using WhenWhere.Core.Domain.Entities;
 
 namespace WhenWhere.Core.DTO
 {
@@ -9,6 +10,7 @@ namespace WhenWhere.Core.DTO
                                 int? Capacity,
                                 string? Location,
                                 string? EventCreator);
+
     public static class EventExtension
     {
         public static EventResponse ToEventResponse(this Event eventModel)
@@ -20,7 +22,7 @@ namespace WhenWhere.Core.DTO
                 eventModel.ExpiredAt,
                 eventModel.Capacity,
                 eventModel.Location,
-                eventModel.EventCreator?.FullName);
+                eventModel.EventCreatorId);
         }
     }
 }

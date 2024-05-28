@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WhenWhere.Core.Domain.Entities;
 
 namespace WhenWhere.Core.DTO
@@ -32,23 +28,22 @@ namespace WhenWhere.Core.DTO
 
         public string Location { get; set; }
 
-        [Required]
+        [BindNever]
+        public string? EventCreatorId { get; set; }
 
-        public Guid EventCreatorId { get; set; }
-
-        public Event ToEvent(EventAddRequest request)
+        public Event ToEvent()
         {
+
             return new Event
             {
-                Title = request.Title,
-                Description = request.Description,
-                ExpiredAt = request.ExpiredAt,
-                CreatedAt = request.CreatedAt,
-                Capacity = request.Capacity,
-                Location = request.Location,
-                EventCreatorId = request.EventCreatorId
-            };   
+                Title = this.Title,
+                Description = this.Description,
+                ExpiredAt = this.ExpiredAt,
+                CreatedAt = this.CreatedAt,
+                Capacity = this.Capacity,
+                Location = this.Location,
+                EventCreatorId = this.EventCreatorId,
+            };
         }
     }
-
 }

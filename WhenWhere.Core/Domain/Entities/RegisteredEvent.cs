@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using WhenWhere.Core.Domain.IdentityEntities;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WhenWhere.Core.Domain.Entities
 {/// <summary>
@@ -13,8 +13,8 @@ namespace WhenWhere.Core.Domain.Entities
 
         public virtual Event? Event { get; set; }
 
-        public Guid? UserId { get; set; }
+        public string? UserId { get; set; }
 
-        public virtual ApplicationUser? User { get; set; }
+        public virtual IdentityUser? User { get; set; }
     }
 }

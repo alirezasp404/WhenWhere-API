@@ -23,19 +23,18 @@ namespace WhenWhere.Infrastructure.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
-        public IQueryable<Event>? GetAllEvents(Guid? userId)
+        public IQueryable<Event>? GetAllEvents(string? userId)
         {
-           return _dbContext.Events.Include(nameof(Event))
-                                   .Where(e => e.EventCreatorId != userId);
-
+            return _dbContext.Events.Include(nameof(Event.EventCreator))
+                                    .Where(e => e.EventCreatorId != userId);
         }
 
-        public IQueryable<Event> GetCreatedEvents(Guid? userId)
+        public IQueryable<Event> GetCreatedEvents(string? userId)
         {
             return _dbContext.Events.Where(e => e.EventCreatorId == userId);
         }
 
-        public IQueryable<Event?>? GetRegisteredEvents(Guid? userId)
+        public IQueryable<Event?>? GetRegisteredEvents(string? userId)
         {
             return _dbContext.RegisteredEvents?.Include(nameof(Event))
                                               .Where(e => e.UserId == userId)

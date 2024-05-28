@@ -1,14 +1,14 @@
-﻿namespace WhenWhere.Infrastructure.DataContext
-{
-    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-    using Microsoft.EntityFrameworkCore;
-    using WhenWhere.Core.Domain.Entities;
-    using WhenWhere.Core.Domain.IdentityEntities;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using WhenWhere.Core.Domain.Entities;
 
+namespace WhenWhere.Infrastructure.DataContext
+{
     /// <summary>
     /// Store application database context.
     /// </summary>
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
+    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options) { }

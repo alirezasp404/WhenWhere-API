@@ -1,8 +1,6 @@
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using WhenWhere.Core.Domain.IdentityEntities;
 using WhenWhere.Infrastructure.DataContext;
 using WhenWhere.Core.ServiceContracts;
 using WhenWhere.Core.Services;
@@ -10,6 +8,8 @@ using WhenWhere.Core.Domain.RepositoryContracts;
 using WhenWhere.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddIdentityApiEndpoints<IdentityUser>()
+    .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddDbContext<ApplicationDbContext>(opts =>
 {
     var connectionString = new SqlConnectionStringBuilder(builder.Configuration.GetConnectionString("Default"));
@@ -17,21 +17,16 @@ builder.Services.AddDbContext<ApplicationDbContext>(opts =>
     connectionString.UserID = builder.Configuration["DbUserId"];
     opts.UseSqlServer(connectionString.ToString());
 });
-
-builder.Services
-    .AddIdentity<ApplicationUser, ApplicationRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddDefaultTokenProviders()
-    .AddUserStore<UserStore<ApplicationUser, ApplicationRole, ApplicationDbContext, Guid>>()
-    .AddRoleStore<RoleStore<ApplicationRole, ApplicationDbContext, Guid>>();
+builder.Services.AddAuthorization();
 builder.Services.AddControllers();
 builder.Services.AddProblemDetails();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IEventsGetterService, EventsGetterService>();
+builder.Services.AddScoped<IEventsAdderService, EventsAdderService>();
 builder.Services.AddScoped<IEventsRepository, EventRepository>();
 var app = builder.Build();
-
+app.MapIdentityApi<IdentityUser>();
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
@@ -43,10 +38,7 @@ else
     app.UseExceptionHandler();
 }
 
-app.UseStatusCodePages();
 app.UseHttpsRedirection();
-app.UseAuthentication();
-app.UseAuthorization();
 
 app.MapControllers();
 
