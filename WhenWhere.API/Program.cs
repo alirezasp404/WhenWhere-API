@@ -23,6 +23,7 @@ builder.Services.AddProblemDetails();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IEventsGetterService, EventsGetterService>();
+builder.Services.AddScoped<IRegisterEventsService, RegisterEventsService>();
 builder.Services.AddScoped<IEventsAdderService, EventsAdderService>();
 builder.Services.AddScoped<IEventsRepository, EventRepository>();
 var app = builder.Build();

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WhenWhere.Core.Domain.Entities;
 using WhenWhere.Core.Domain.RepositoryContracts;
+using WhenWhere.Core.Exceptions;
 using WhenWhere.Infrastructure.DataContext;
 
 namespace WhenWhere.Infrastructure.Repositories
@@ -34,6 +35,11 @@ namespace WhenWhere.Infrastructure.Repositories
             return _dbContext.Events.Where(e => e.EventCreatorId == userId);
         }
 
+        public async Task<Event?>? GetEventById(Guid? eventId)
+        {
+            return await _dbContext.Events.FirstOrDefaultAsync(e => e.Id == eventId);
+        }
+
         public IQueryable<Event?>? GetRegisteredEvents(string? userId)
         {
             return _dbContext.RegisteredEvents?.Include(nameof(Event))
@@ -43,6 +49,12 @@ namespace WhenWhere.Infrastructure.Repositories
 
         public async Task RegisterForEvent(RegisteredEvent registeredEvent)
         {
+            var registered = _dbContext.RegisteredEvents.FirstOrDefaultAsync(e => e.UserId == registeredEvent.UserId && e.EventId == registeredEvent.EventId).Result;
+            if (registered is not null)
+            {
+                throw new UserAlreadyRegisteredException("The user has already registered for this event");
+            }
+
             _dbContext.Add(registeredEvent);
             await _dbContext.SaveChangesAsync();
         }
