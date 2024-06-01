@@ -23,7 +23,7 @@ namespace WhenWhere.API.Controllers
             _eventsGetterService = eventsGetterService;
             _eventsAdderService = eventsAdderService;
         }
-
+        
         [HttpPost]
         public async Task<ActionResult<EventResponse>> CreateEvent(EventAddRequest? eventAddRequest)
         {
@@ -44,7 +44,7 @@ namespace WhenWhere.API.Controllers
             return Ok(allEvents);
         }
 
-        [HttpGet("created")]
+        [HttpGet("createdByUser")]
         public async Task<ActionResult<IEnumerable<EventResponse>>> GetAllCreatedEvents()
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;

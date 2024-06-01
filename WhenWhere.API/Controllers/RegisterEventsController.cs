@@ -35,6 +35,7 @@ namespace WhenWhere.API.Controllers
 
             return Ok(registeredEvents);
         }
+
         [HttpPost]
         public async Task<ActionResult<EventResponse>> RegisterEvent( [FromBody] Guid? eventId)
         {
@@ -48,6 +49,7 @@ namespace WhenWhere.API.Controllers
             }catch (ArgumentException ex ) {
                 return Problem(detail: ex.Message, statusCode: StatusCodes.Status400BadRequest);
             }
+
             return NoContent();
         }
     }
