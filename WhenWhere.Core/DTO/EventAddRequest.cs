@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.ComponentModel.DataAnnotations;
+using WhenWhere.Core.CustomValidationAttributes;
 using WhenWhere.Core.Domain.Entities;
 
 namespace WhenWhere.Core.DTO
@@ -14,12 +15,11 @@ namespace WhenWhere.Core.DTO
         public string Description { get; set; }
 
         [Required]
-
+        [ExpiredDateGreaterThanCreatedDate(nameof(CreatedAt))]
         public DateTime? ExpiredAt { get; set; }
 
-        [Required]
-
-        public DateTime? CreatedAt { get; set; }
+        [BindNever]
+        public DateTime? CreatedAt { get; set; }= DateTime.Now;
 
         [Range(0, int.MaxValue)]
         public int Capacity { get; set; }

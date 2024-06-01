@@ -27,7 +27,7 @@ namespace WhenWhere.Infrastructure.Repositories
         public IQueryable<Event>? GetAllEvents(string? userId)
         {
             return _dbContext.Events.Include(nameof(Event.EventCreator))
-                                    .Where(e => e.EventCreatorId != userId);
+                                    .Where(e => e.EventCreatorId != userId && e.ExpiredAt > DateTime.Now);
         }
 
         public IQueryable<Event> GetCreatedEvents(string? userId)

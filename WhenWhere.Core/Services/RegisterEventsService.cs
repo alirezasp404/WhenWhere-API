@@ -35,8 +35,7 @@ namespace WhenWhere.Core.Services
                 UserId = userId,
             };
             await _eventsRepository.RegisterForEvent(RegisteredEvent);
-
-
+            foundEvent.Capacity--;
         }
     }
 }

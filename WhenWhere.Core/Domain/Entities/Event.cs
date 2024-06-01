@@ -1,7 +1,9 @@
 ﻿namespace WhenWhere.Core.Domain.Entities
 {
     using Microsoft.AspNetCore.Identity;
+    using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+    using WhenWhere.Core.CustomValidationAttributes;
 
     /// <summary>
     /// Event entity.
