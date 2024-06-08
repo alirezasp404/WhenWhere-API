@@ -9,10 +9,7 @@ using WhenWhere.Core.Services;
 
 namespace WhenWhere.API.Controllers
 {
-    [Authorize]
-    [Route("api/[controller]")]
-    [ApiController]
-    public class RegisterEventsController : ControllerBase
+    public class RegisterEventsController : APIController
     {
         private readonly IEventsGetterService _eventsGetterService;
         private readonly IRegisterEventsService _registerEventsService;

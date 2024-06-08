@@ -9,10 +9,7 @@ using WhenWhere.Core.Services;
 
 namespace WhenWhere.API.Controllers
 {
-    [Authorize]
-    [Route("api/[controller]")]
-    [ApiController]
-    public class EventsController : ControllerBase
+    public class EventsController : APIController
     {
         private readonly IEventsGetterService _eventsGetterService;
         private readonly IEventsAdderService _eventsAdderService;
@@ -23,7 +20,7 @@ namespace WhenWhere.API.Controllers
             _eventsGetterService = eventsGetterService;
             _eventsAdderService = eventsAdderService;
         }
-        
+
         [HttpPost]
         public async Task<ActionResult<EventResponse>> CreateEvent(EventAddRequest? eventAddRequest)
         {
@@ -53,7 +50,6 @@ namespace WhenWhere.API.Controllers
             {
                 return Problem(statusCode: StatusCodes.Status404NotFound, detail: "There aren't any Created Events");
             }
-
             return Ok(createdEvents);
         }
     }

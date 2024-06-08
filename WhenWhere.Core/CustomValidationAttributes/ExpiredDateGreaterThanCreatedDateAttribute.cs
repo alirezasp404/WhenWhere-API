@@ -18,6 +18,10 @@ namespace WhenWhere.Core.CustomValidationAttributes
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
+            if (value is null)
+            {
+                throw new ArgumentNullException($"The ExpiredAt Property is null.");
+            }
             var expiredDate = (DateTime)value;
             var createdDateProperty = validationContext.ObjectType.GetProperty(_createdDate);
 

@@ -26,8 +26,8 @@ builder.Services.AddScoped<IEventsGetterService, EventsGetterService>();
 builder.Services.AddScoped<IRegisterEventsService, RegisterEventsService>();
 builder.Services.AddScoped<IEventsAdderService, EventsAdderService>();
 builder.Services.AddScoped<IEventsRepository, EventRepository>();
+builder.Services.AddHttpClient();
 var app = builder.Build();
-app.MapIdentityApi<IdentityUser>();
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
@@ -38,7 +38,8 @@ else
 {
     app.UseExceptionHandler();
 }
-
+app.MapIdentityApi<IdentityUser>();
+app.UseStatusCodePages();
 app.UseHttpsRedirection();
 
 app.MapControllers();
