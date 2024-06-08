@@ -16,13 +16,13 @@ namespace WhenWhere.Core.DTO
         public static EventResponse ToEventResponse(this Event eventModel)
         {
             return new EventResponse(
-                eventModel.Id,
-                eventModel.Title,
-                eventModel.Description,
-                eventModel.ExpiredAt,
-                eventModel.Capacity,
-                eventModel.Location,
-                eventModel.EventCreatorId);
+                eventModel?.Id,
+                eventModel?.Title,
+                eventModel?.Description,
+                eventModel?.ExpiredAt,
+                eventModel?.Capacity,
+                eventModel?.Location,
+                eventModel?.EventCreator?.UserName);
         }
     }
 }

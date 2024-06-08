@@ -29,7 +29,7 @@ namespace WhenWhere.Infrastructure.Repositories
             return _dbContext.Events.Include(nameof(Event.EventCreator))
                                     .Where(e => e.EventCreatorId != userId && e.ExpiredAt > DateTime.Now)
                                     .Where(e => !_dbContext.RegisteredEvents.Any(re => re.EventId == e.Id && re.UserId == userId));
-                                    
+
         }
 
         public IQueryable<Event> GetCreatedEvents(string? userId)
@@ -44,9 +44,10 @@ namespace WhenWhere.Infrastructure.Repositories
 
         public IQueryable<Event?>? GetRegisteredEvents(string? userId)
         {
-            return _dbContext.RegisteredEvents?.Include(nameof(Event))
-                                              .Where(e => e.UserId == userId)
-                                              .Select(e => e.Event);
+            return _dbContext.RegisteredEvents?.Where(e => e.UserId == userId)
+                                               .Include(nameof(Event))
+                                               .Include(re => re.Event.EventCreator)
+                                               .Select(e => e.Event);
         }
 
         public async Task RegisterForEvent(RegisteredEvent registeredEvent)
