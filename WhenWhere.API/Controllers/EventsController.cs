@@ -42,7 +42,7 @@ namespace WhenWhere.API.Controllers
         }
 
         [HttpGet("createdByUser")]
-        public async Task<ActionResult<IEnumerable<EventResponse>>> GetAllCreatedEvents()
+        public async Task<ActionResult<IEnumerable<EventResponse>>> GetCreatedEvents()
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var createdEvents = await _eventsGetterService.GetCreatedEvents(userId);
