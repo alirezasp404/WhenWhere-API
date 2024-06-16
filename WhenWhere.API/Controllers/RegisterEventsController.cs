@@ -25,7 +25,7 @@ namespace WhenWhere.API.Controllers
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var registeredEvents = await _eventsGetterService.GetRegisteredEvents(userId);
-            if (registeredEvents is null || !registeredEvents.Any())
+            if (registeredEvents is null )
             {
                 return Problem(statusCode: StatusCodes.Status404NotFound, detail: "There aren't any Registered Events");
             }

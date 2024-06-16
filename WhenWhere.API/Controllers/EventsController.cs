@@ -33,7 +33,7 @@ namespace WhenWhere.API.Controllers
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var allEvents = await _eventsGetterService.GetAllEvents(userId);
-            if (allEvents is null || !allEvents.Any())
+            if (allEvents is null)
             {
                 return Problem(statusCode: StatusCodes.Status404NotFound, detail: "There aren't any Events");
             }
@@ -46,7 +46,7 @@ namespace WhenWhere.API.Controllers
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var createdEvents = await _eventsGetterService.GetCreatedEvents(userId);
-            if (createdEvents is null || !createdEvents.Any())
+            if (createdEvents is null)
             {
                 return Problem(statusCode: StatusCodes.Status404NotFound, detail: "There aren't any Created Events");
             }
