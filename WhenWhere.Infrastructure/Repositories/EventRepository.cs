@@ -52,12 +52,11 @@ namespace WhenWhere.Infrastructure.Repositories
 
         public async Task RegisterForEvent(RegisteredEvent registeredEvent)
         {
-            var registered = _dbContext.RegisteredEvents.FirstOrDefaultAsync(e => e.UserId == registeredEvent.UserId && e.EventId == registeredEvent.EventId).Result;
+            var registered = await _dbContext.RegisteredEvents.FirstOrDefaultAsync(e => e.UserId == registeredEvent.UserId && e.EventId == registeredEvent.EventId);
             if (registered is not null)
             {
                 throw new UserAlreadyRegisteredException("The user has already registered for this event");
             }
-
             _dbContext.Add(registeredEvent);
             await _dbContext.SaveChangesAsync();
         }

@@ -25,7 +25,7 @@ namespace WhenWhere.Core.Services
         public async Task RegisterEvent(Guid? eventId, string? userId)
         {
             ArgumentNullException.ThrowIfNull(eventId);
-            Event foundEvent = _eventsRepository.GetEventById(eventId)?.Result;
+            Event foundEvent = await _eventsRepository.GetEventById(eventId);
             ArgumentNullException.ThrowIfNull(foundEvent);
             if (foundEvent.Capacity <= 0)
                 throw new FullCapacityException("There is no capacity to register for this event");
@@ -34,8 +34,8 @@ namespace WhenWhere.Core.Services
                 EventId = eventId,
                 UserId = userId,
             };
-            await _eventsRepository.RegisterForEvent(RegisteredEvent);
             foundEvent.Capacity--;
+            await _eventsRepository.RegisterForEvent(RegisteredEvent);
         }
     }
 }
