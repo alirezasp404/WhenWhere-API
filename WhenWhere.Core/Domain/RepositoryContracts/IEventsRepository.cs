@@ -47,5 +47,14 @@ namespace WhenWhere.Core.Domain.RepositoryContracts
         /// <param name="userId">user Id to register.</param>
         /// <param name="eventId">event Id to register.</param>
         Task RegisterForEvent(RegisteredEvent registeredEvent);
+
+        /// <summary>
+        /// Delete Event that matches with Id.
+        /// </summary>
+        /// <param name="eventId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+
+        Task DeleteEvent(Event eventToDelete);
     }
 }

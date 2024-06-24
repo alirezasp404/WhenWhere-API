@@ -13,12 +13,15 @@ namespace WhenWhere.API.Controllers
     {
         private readonly IEventsGetterService _eventsGetterService;
         private readonly IEventsAdderService _eventsAdderService;
+        private readonly IEventsDeleterService _eventsDeleterService;
 
         public EventsController(IEventsGetterService eventsGetterService,
-                                IEventsAdderService eventsAdderService)
+                                IEventsAdderService eventsAdderService,
+                                IEventsDeleterService eventsDeleterService)
         {
             _eventsGetterService = eventsGetterService;
             _eventsAdderService = eventsAdderService;
+            _eventsDeleterService = eventsDeleterService;
         }
 
         [HttpPost]
@@ -50,7 +53,21 @@ namespace WhenWhere.API.Controllers
             {
                 return Problem(statusCode: StatusCodes.Status404NotFound, detail: "There aren't any Created Events");
             }
+
             return Ok(createdEvents);
+        }
+
+        [HttpDelete("{eventId}")]
+        public async Task<IActionResult> DeleteEvents(Guid? eventId)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            bool eventDeleted = await _eventsDeleterService.DeleteEvent(eventId, userId);
+            if (!eventDeleted)
+            {
+                return Problem(detail: "There aren't any events with given Id to delete", statusCode: StatusCodes.Status404NotFound);
+            }
+
+            return NoContent();
         }
     }
 }

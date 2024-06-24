@@ -24,20 +24,26 @@ namespace WhenWhere.Infrastructure.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
+        public async Task DeleteEvent(Event eventToDelete)
+        {
+                var registeredEvents = _dbContext.RegisteredEvents.Where(e => e.EventId == eventToDelete.Id);
+                _dbContext.RegisteredEvents.RemoveRange(registeredEvents);
+                _dbContext.Events.Remove(eventToDelete);
+                await _dbContext.SaveChangesAsync();
+        }
+
         public IQueryable<Event>? GetAllEvents(string? userId)
         {
             return _dbContext.Events.Include(nameof(Event.EventCreator))
                                     .Where(e => e.EventCreatorId != userId && e.ExpiredAt > DateTime.Now)
                                     .Where(e => !_dbContext.RegisteredEvents.Any(re => re.EventId == e.Id && re.UserId == userId))
                                     .OrderBy(e => e.ExpiredAt);
-
         }
 
         public IQueryable<Event> GetCreatedEvents(string? userId)
         {
             return _dbContext.Events.Where(e => e.EventCreatorId == userId)
                                     .OrderBy(e => e.ExpiredAt);
-            ;
         }
 
         public async Task<Event?>? GetEventById(Guid? eventId)
