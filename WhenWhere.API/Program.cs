@@ -38,10 +38,11 @@ else
 {
     app.UseExceptionHandler();
 }
+
 app.MapIdentityApi<IdentityUser>();
 app.UseStatusCodePages();
+app.UseHsts();
 app.UseHttpsRedirection();
-
 app.MapControllers();
 
 app.Run();
