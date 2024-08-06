@@ -1,5 +1,5 @@
-# WhenWhere-Backend
-WhenWhere-Backend is an API built with ASP.NET Core for a cross-platform event management app. This app allows users to create and join various events. Users can browse events and register for the ones they are interested in. Additionally, users can create their own events and invite others to join.
+# WhenWhere-API
+WhenWhere-API is an API built with ASP.NET Core for a cross-platform event management app. This app allows users to create and join various events. Users can browse events and register for the ones they are interested in. Additionally, users can create their own events and invite others to join.
 # Features
 Event Browsing: Users can browse through a list of events.
 Event Registration: Users can register for events they are interested in.
